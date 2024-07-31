@@ -1,2 +1,7 @@
-# homework
-# adventure_project
+# adventure project
+
+My project aims to implement the Python knowledge I have garnered through this course and E1006. I plan to create an inventory system and a combat system with different pathways depending on the player's chosen role. There will be three paths that a player can choose, and each path will have a different string of scenarios that the player can navigate through. Certain decisions will invoke different probability rolls which will affect the player's trajectory in a positive or negative fashion. The main aspect of this game will be the pseudo-random event system which will be triggered by a simple "Ready to Adventure? Y/N". Once that happens, a story will begin and a list of events that will carry out. Depending on how far the player gets in the interative list of events, they will either lose the game or win in whatever role they choose to embody. There is a dungeon system that adventurers will be able to enter, gather loot, and fight monsters to get stronger.
+
+# my motivation
+
+My motivation for this project is a mix of Pokémon and my love for the Song of Ice and Fire book series. The problem I want my project to solve is combining my artistic capacities with my more technical way of thinking. I want to be able to code a program that marries my creativity and ability to apply that creativity in a quantitative way. I believe my project might be interesting to others because it will hopefully allow to think strategically about which decisions they make and how they make them. I want the game to feel like an interactive puzzle, one that is a little luck but mostly intuition.
