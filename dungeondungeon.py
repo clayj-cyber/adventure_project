@@ -31,112 +31,112 @@ class Dungeon:
         self.turn = 0
 
     def dungeoncombat(self, monster, floor):
-        print(f"==Combat with {monster.name}==")
-        while self.player.hp > 0 and monster.hp > 0:
-            self.turn += 1
-            self.player.update_spell_cooldowns()
-            print(f"\nTurn {self.turn}:")
-            print(f"Player HP: {self.player.hp}/{self.player.max_hp} | Monster HP: {monster.hp}")
-            print(f"Player MP: {self.player.magic_points}/{self.player.max_magic_points} | Player Stamina: {self.player.stamina}/{self.player.max_stamina}")
+                print(f"==Combat with {monster.name}==")
+                while self.player.hp > 0 and monster.hp > 0:
+                    self.turn += 1
+                    self.player.update_spell_cooldowns()
+                    print(f"\nTurn {self.turn}:")
+                    print(f"Player HP: {self.player.hp}/{self.player.max_hp} | Monster HP: {monster.hp}")
+                    print(f"Player MP: {self.player.magic_points}/{self.player.max_magic_points} | Player Stamina: {self.player.stamina}/{self.player.max_stamina}")
 
-            # player's turn
-            actions = self.ACTIONS['with_excalir'] if self.player.excalir else self.ACTIONS['regular']
-            for action in actions:
-                print(action)
-            player_action = input("Choose action: ")
+                    # player's turn
+                    actions = self.ACTIONS['with_excalir'] if self.player.excalir else self.ACTIONS['regular']
+                    for action in actions:
+                        print(action)
+                    player_action = input("Choose action: ")
 
-            if player_action == '1' and self.player.stamina >= 5:
-                # Attack with Weapon or Excalir
-                self.player.stamina -= 5
-                if self.player.excalir:
-                    damage = 80 * (1 + self.player.stats.strength / 100)
-                    if self.player.hp <= 25:
-                        damage *= 1.5  # True form of Excalir
-                    else:
-                        damage *= 1 + (100 - self.player.hp) // 25 * 0.05
-                else:
-                    damage = self.player.base_attack
-                monster.hp -= max(0, damage)
-                print(f"Player attacks {monster.name} with weapon for {damage} damage.")
-            elif player_action == '2' and self.player.excalir:
-                if self.player.spell_cooldowns['esmera_slash'] == 0:
-                    # Esmera Slash
-                    damage = 80 * (1 + self.player.stats.strength / 100) * 2
-                    monster.hp -= max(0, damage)
-                    print(f"Player uses Esmera Slash on {monster.name} for {damage} damage.")
-                    self.player.spell_cooldowns['esmera_slash'] = 4
-                else:
-                    print("Esmera Slash is on cooldown.")
-            elif (player_action == '2' and not self.player.excalir) or (player_action == '3' and self.player.excalir):
-                if self.player.magic_points >= 5 and self.player.stamina >= 5:
-                    # Attack with Magic
-                    self.player.stamina -= 5
-                    magic_cost = 5 - 0.5 * self.player.equipped_rings['magic']
-                    if self.player.magic_points >= magic_cost:
-                        self.player.magic_points -= magic_cost
-                        available_spells = self.get_available_spells()
-                        if available_spells:
-                            print(f"Available spells: {', '.join([f'{i+1}: {spell}' for i, spell in enumerate(available_spells)])}")
-                            try:
-                                spell_choice = int(input("Choose a spell: ")) - 1
-                                if 0 <= spell_choice < len(available_spells):
-                                    spell_name = available_spells[spell_choice]
-                                    self.cast_spell(spell_name, monster)
-                                else:
-                                    print("Invalid spell choice.")
-                            except ValueError:
-                                print("Invalid input. Please enter a valid number.")
+                    if player_action == '1' and self.player.stamina >= 5:
+                        # Attack with Weapon or Excalir
+                        self.player.stamina -= 5
+                        if self.player.excalir:
+                            damage = 80 * (1 + self.player.stats.strength / 100)
+                            if self.player.hp <= 25:
+                                damage *= 1.5  # True form of Excalir
+                            else:
+                                damage *= 1 + (100 - self.player.hp) // 25 * 0.05
                         else:
-                            print("You have no spells available.")
+                            damage = self.player.base_attack
+                        monster.hp -= max(0, damage)
+                        print(f"Player attacks {monster.name} with weapon for {damage} damage.")
+                    elif player_action == '2' and self.player.excalir:
+                        if self.player.spell_cooldowns['esmera_slash'] == 0:
+                            # Esmera Slash
+                            damage = 80 * (1 + self.player.stats.strength / 100) * 2
+                            monster.hp -= max(0, damage)
+                            print(f"Player uses Esmera Slash on {monster.name} for {damage} damage.")
+                            self.player.spell_cooldowns['esmera_slash'] = 4
+                        else:
+                            print("Esmera Slash is on cooldown.")
+                    elif (player_action == '2' and not self.player.excalir) or (player_action == '3' and self.player.excalir):
+                        if self.player.magic_points >= 5 and self.player.stamina >= 5:
+                            # Attack with Magic
+                            self.player.stamina -= 5
+                            magic_cost = 5 - 0.5 * self.player.equipped_rings['magic']
+                            if self.player.magic_points >= magic_cost:
+                                self.player.magic_points -= magic_cost
+                                available_spells = self.get_available_spells()
+                                if available_spells:
+                                    print(f"Available spells: {', '.join([f'{i+1}: {spell}' for i, spell in enumerate(available_spells)])}")
+                                    try:
+                                        spell_choice = int(input("Choose a spell: ")) - 1
+                                        if 0 <= spell_choice < len(available_spells):
+                                            spell_name = available_spells[spell_choice]
+                                            self.cast_spell(spell_name, monster)
+                                        else:
+                                            print("Invalid spell choice.")
+                                    except ValueError:
+                                        print("Invalid input. Please enter a valid number.")
+                                else:
+                                    print("You have no spells available.")
+                            else:
+                                print("Not enough magic points.")
+                        else:
+                            print("Not enough stamina to attack with magic.")
+                    elif (player_action == '3' and not self.player.excalir) or (player_action == '4' and self.player.excalir):
+                        # Inventory
+                        self.use_inventory()
+                    elif (player_action == '4' and not self.player.excalir) or (player_action == '5' and self.player.excalir):
+                        # Stats breakdown
+                        self.display_stats()
+                    elif (player_action == '5' and not self.player.excalir) or (player_action == '6' and self.player.excalir):
+                        # Flee
+                        if self.flee():
+                            print("You successfully fled the combat.")
+                            return False
+                        else:
+                            print("Failed to flee.")
+                    elif (player_action == '6' and not self.player.excalir) or (player_action == '7' and self.player.excalir):
+                        # Block
+                        block_value = self.player.block()
+                        print(f"Player blocks, reducing incoming damage by {block_value}.")
+                    elif (player_action == '7' and not self.player.excalir) or (player_action == '8' and self.player.excalir):
+                        # Parry
+                        if self.player.stamina >= 5:
+                            self.player.stamina -= 5
+                            parry_damage = self.player.parry()
+                            monster.hp -= max(0, parry_damage)
+                            print(f"Player parries and counters with {parry_damage} damage.")
+                        else:
+                            print("Not enough stamina to parry.")
                     else:
-                        print("Not enough magic points.")
-                else:
-                    print("Not enough stamina to attack with magic.")
-            elif (player_action == '3' and not self.player.excalir) or (player_action == '4' and self.player.excalir):
-                # Inventory
-                self.use_inventory()
-            elif (player_action == '4' and not self.player.excalir) or (player_action == '5' and self.player.excalir):
-                # Stats breakdown
-                self.display_stats()
-            elif (player_action == '5' and not self.player.excalir) or (player_action == '6' and self.player.excalir):
-                # Flee
-                if self.flee():
-                    print("You successfully fled the combat.")
-                    return False
-                else:
-                    print("Failed to flee.")
-            elif (player_action == '6' and not self.player.excalir) or (player_action == '7' and self.player.excalir):
-                # Block
-                block_value = self.player.block()
-                print(f"Player blocks, reducing incoming damage by {block_value}.")
-            elif (player_action == '7' and not self.player.excalir) or (player_action == '8' and self.player.excalir):
-                # Parry
-                if self.player.stamina >= 5:
-                    self.player.stamina -= 5
-                    parry_damage = self.player.parry()
-                    monster.hp -= max(0, parry_damage)
-                    print(f"Player parries and counters with {parry_damage} damage.")
-                else:
-                    print("Not enough stamina to parry.")
-            else:
-                print("Invalid action or not enough magic points/stamina.")
+                        print("Invalid action or not enough magic points/stamina.")
 
-            monster.take_turn(self.player)
-            monster.reduce_abilities_cooldown()
+                    monster.take_turn(self.player)
+                    monster.reduce_abilities_cooldown()
 
-            if self.player.hp <= 0:
-                print("Player is defeated!")
-                return False
+                    if self.player.hp <= 0:
+                        print("Player is defeated!")
+                        return False
 
-            if monster.hp <= 0:
-                self.player.gain_experience(monster.experience)
-                self.player.gold += monster.gold
-                print(f"Player gains {monster.experience} experience points and {monster.gold} gold!")
-                self.replenish_resources()
-                self.reset_cooldowns()
-                return True
+                    if monster.hp <= 0:
+                        self.player.gain_experience(monster.experience)
+                        self.player.gold += monster.gold
+                        print(f"Player gains {monster.experience} experience points and {monster.gold} gold!")
+                        self.replenish_resources()
+                        self.reset_cooldowns()
+                        return True
 
-            return True
+                    return True
 
     def reset_cooldowns(self):
         for spell in self.player.spell_cooldowns:
@@ -421,10 +421,12 @@ class Dungeon:
     def play_game(self):
         for floor in range(1, 51):
             print(f"\n== Floor {floor} ==")
-            if floor % 5 == 0:
+            if floor % 10 == 0:
                 self.dungeonpuzzle()
-            elif floor % 10 == 0:
+            elif floor % 13 == 0:
                 self.merida_shop()
+            elif floor % 22 == 0:
+                self.mother_dragon_boss()
             else:
                 encounter_prob = 0.3 + 0.1 * (floor % 10)  # Increase encounter probability with each floor in the set of 10
                 encounters = 0
@@ -440,7 +442,7 @@ class Dungeon:
         self.dungeonconquered()
 
     def mother_dragon_boss(self):
-        print("== You have reached the final floor and encountered the Mother Dragon! ==")
+        print("== You have encountered a Mother Dragon! ==")
         mother_dragon = Monster("Mother Dragon", 50, 300, 35, abilities=[SpecialAbility("Stronger Fire Breath", stronger_fire_breath), SpecialAbility("Summon Baby Dragon", lambda user, target: self.summon_baby_dragon(user))], immune_to_fire=True, gold=1000)
         while self.player.hp > 0 and mother_dragon.hp > 0:
             self.turn += 1
@@ -705,4 +707,5 @@ class Dungeon:
             print("You bought the Reflect Spell.")
         else:
             print("You don't have enough gold or invalid choice.")
+
 
