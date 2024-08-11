@@ -152,7 +152,7 @@ Description: If I am to have this implemented, this component would handle savin
 
 I have a timeline on my notepad that I've been using, but that may not be very professional. I'm still learning github so I have been somewhat conservative in how I've used it. I may try to use the calendar function for adding my project plans, but otherwise I am content with my notepad app until I get more comfortable with the github framework. 
 
-I have been using repl.it to test my code's behavior in the console, but I am not planning to use any specific libraries or frameworks. This project will be fully text-based since I am still relatively new to coding. (I decided to start consistently coding earlier this summer!)
+I have been using repl.it to test my code's behavior in the console, but I am not planning to use any specific libraries or frameworks. This project will be fully text-based since I am still relatively new to coding. (I decided to start consistently coding earlier this year!)
 
 ## Potential Challenges and Roadblocks
 *Identify any potential challenges or roadblocks you anticipate facing during the
