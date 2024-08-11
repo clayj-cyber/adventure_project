@@ -1,4 +1,4 @@
-import random
+import random # For random module which is relied on by custom data structure class Monster
 from player.abilities import SpecialAbility, fire_breath, smash
 
 class Monster:
