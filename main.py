@@ -73,5 +73,3 @@ class Stats:
 
 
 class Player:
-pass
-
