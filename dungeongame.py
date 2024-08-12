@@ -67,19 +67,19 @@ class Stats:
             else:
                 print("Invalid choice.")
         print("Stat points allocated successfully.")
-
+# you may want to edit these values for testing purposes
 class Player:
     def __init__(self):
         self.name = 'Hero'
         self.level = 1
-        self.base_max_hp = 10000
-        self.base_max_stamina = 50000
-        self.base_max_magic_points = 4000
+        self.base_max_hp = 100
+        self.base_max_stamina = 50
+        self.base_max_magic_points = 40
         self.hp = self.base_max_hp
         self.max_hp = self.base_max_hp
-        self.base_attack = 2500
-        self.magic = 2500
-        self.weapon = 2500
+        self.base_attack = 25
+        self.magic = 25
+        self.weapon = 25
         self.magic_points = self.base_max_magic_points
         self.max_magic_points = self.base_max_magic_points
         self.stamina = self.base_max_stamina
