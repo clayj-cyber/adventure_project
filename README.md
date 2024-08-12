@@ -10,31 +10,18 @@ My project aims to implement the Python knowledge I have garnered through this c
 My motivation for this project is a mix of Pokémon and my love for the Song of Ice and Fire book series. The problem I want my project to solve is combining my artistic capacities with my more technical way of thinking. I want to be able to code a program that marries my creativity and ability to apply that creativity in a quantitative way. I believe my project might be interesting to others because it will hopefully allow to think strategically about which decisions they make and how they make them. I want the game to feel like an interactive puzzle, one that is a little luck but mostly intuition.
 
 ## Timeline
-*To track progress on the project, we will use the following intermediate
-milestones for your overall project. Each milestone will be marked with a tag in
-the git repository, and we will check progress and provide feedback at key
-milestones.*
-| Date | Milestone
-| Deliverables | Git tag |
-|--------------------|-------------------------------------------------------------
--------------------------------------------|-------------------------------------|-
------------|
-| **July&nbsp;15** | Submit project description
-| README.md | proposal |
-| **July&nbsp;17** | Update project scope/direction based on instructor/TA
-feedback | README.md
-| approved |
-| **July&nbsp;22** | Basic project structure with empty functions/classes
-(incomplete implementation), architecture diagram | Source code, comments, docs
-| milestone1 |
-| **August&nbsp;2** | More or less complete implementation. The goal is to have
-something you can share with others. | Source code, unit tests
-| milestone2 |
-| **August&nbsp;9** | Complete implementation. Final touches (conclusion,
-documentation, testing, etc.) | Source code, Conclusion
-(README.md) | conclusion |
-*The column Deliverables lists deliverable suggestions, but you can choose your
-own, depending on the type of your project.*
+*To track progress on the project, we will use the following intermediate milestones for your overall project. Each milestone will be marked with a tag in the git repository, and we will check progress and provide feedback at key milestones.*
+
+| Date            | Milestone Description                                                                 | Deliverables                              | Git Tag     |
+|-----------------|---------------------------------------------------------------------------------------|-------------------------------------------|-------------|
+| **July 15**     | Submit project description                                                            | README.md                                 | proposal    |
+| **July 17**     | Update project scope/direction based on instructor/TA feedback                        | README.md                                 | approved    |
+| **July 22**     | Basic project structure with empty functions/classes (incomplete implementation), architecture diagram | Source code, comments, docs               | milestone1  |
+| **August 2**    | More or less complete implementation. The goal is to have something you can share with others. | Source code, unit tests                    | milestone2  |
+| **August 9**    | Complete implementation. Final touches (conclusion, documentation, testing, etc.)     | Source code, Conclusion (README.md)       | conclusion  |
+
+*The column Deliverables lists deliverable suggestions, but you can choose your own, depending on the type of your project.*
+
 ## Requirements, Features and User Stories
 The problem I'm solving is creating a project that fully implements all of the things that I love about turn-based games. Magic, special swords, boss fights, and unique monsters that have their own pseudo-artificial intelligence (is that a double-negative? haha). Currency, loot, etc. 
 
