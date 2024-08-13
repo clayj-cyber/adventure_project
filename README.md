@@ -153,9 +153,15 @@ A few potential challenges and roadblocks I thought about initially were creatin
 https://www.youtube.com/watch?v=pSYeMdIrKQw
 https://stackoverflow.com/
 https://www.reddit.com/r/learnprogramming/
+openAI resources via chatGPT for finding mistakes and adding comments for correctly explaining some aspects of the code
 
 ## Conclusion and Future Work
 *Wrap up your project description with any final thoughts, expectations, or goals
 not covered in the sections above. Also briefly discuss potential future work,
-i.e., what could be done next to improve the project.
-TBA
+i.e., what could be done next to improve the project.*
+
+From the Conclusion release:
+
+I expect for the program to run OK. I have fun playing the game, and I think that's what's most important. I did not receive feedback for the project, but I'm hopeful that it will be well-received. I did not run into any performance issues last time I ran dungeongame.py this afternoon, but I implemented a lot of different functions and methods so I'm sure there are some bugs I didn't find. I tried to create a multiple file directory but ran into a few issues with the code working together. I opted for a longer program but I think it's organized enough for someone to read and understand it if they know how to code. 
+
+I am happy with how I designed the game, even if it's not fully-realized in terms of how I wanted to approach it. I would love to create 8-bit characters that can be encountered in an early Pokémon-style of play. I think if I had another three months to develop this I could get to that. I have never done that before, so I know I would probably need a lot of time to do so. Even then, it may not be done. I think the visual aspect would improve this project tremendously. The code, although imperfect, is from my own mind and I executed it as intended. I have no major qualms about it. I am happy with the progress I made, but any feedback will be helpful for my advancement. I even implemented a tree data structure for the save/load function in the Dungeon Class! I never thought I'd be able to implement it in that way, but it ended up being easy (although I did not have time to test to make sure it correctly saved everything, I know that the playerstats at least follow that function call).
