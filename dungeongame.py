@@ -1,7 +1,44 @@
 import random
 
 class Stats:
+    """
+    A class to represent the player's stats.
+
+    Attributes:
+    -----------
+    strength : int
+        The player's strength stat.
+    defense : int
+        The player's defense stat.
+    magic_defense : int
+        The player's magic defense stat.
+    speed : int
+        The player's speed stat.
+    magic_power : int
+        The player's magic power stat.
+    stamina : int
+        The player's stamina stat.
+    magic_cost : int
+        The player's magic cost stat.
+    hp : int
+        Additional stat for increasing the player's max HP.
+    endurance : int
+        Additional stat for increasing the player's max stamina.
+    magic_amount : int
+        Additional stat for increasing the player's max magic points.
+    stat_points : int
+        Points available for allocation to the player's stats.
+    skill_points : int
+        Points available for allocation to the player's skills.
+
+    Methods:
+    --------
+    allocate_stat_points():
+        Allows the player to allocate their stat points.
+    """
+
     def __init__(self):
+        """Initialize the stats with default values."""
         self.strength = 5
         self.defense = 5
         self.magic_defense = 5
@@ -16,6 +53,9 @@ class Stats:
         self.skill_points = 0
 
     def allocate_stat_points(self):
+        """
+        Allows the player to allocate their available stat points to various attributes.
+        """
         while self.stat_points > 0:
             print("\nAllocate your stat points:")
             print(f"1. Strength: {self.strength}")
@@ -69,7 +109,88 @@ class Stats:
         print("Stat points allocated successfully.")
 
 class Player:
+    """
+    A class to represent the player.
+
+    Attributes:
+    -----------
+    name : str
+        The name of the player.
+    level : int
+        The level of the player.
+    base_max_hp : int
+        The base maximum HP of the player.
+    base_max_stamina : int
+        The base maximum stamina of the player.
+    base_max_magic_points : int
+        The base maximum magic points of the player.
+    hp : int
+        The current HP of the player.
+    max_hp : int
+        The maximum HP of the player.
+    base_attack : int
+        The base attack value of the player.
+    magic : int
+        The magic power of the player.
+    weapon : int
+        The weapon power of the player.
+    magic_points : int
+        The current magic points of the player.
+    max_magic_points : int
+        The maximum magic points of the player.
+    stamina : int
+        The current stamina of the player.
+    max_stamina : int
+        The maximum stamina of the player.
+    burn_duration : int
+        The duration of burn status on the player.
+    burn_damage : int
+        The damage taken each turn due to burn.
+    score : int
+        The player's score.
+    experience : int
+        The experience points of the player.
+    stats : Stats
+        The stats object containing player's attributes.
+    inventory : dict
+        The inventory of the player, including potions, elixirs, rings, and weapons.
+    spells : dict
+        A dictionary tracking available spells for the player.
+    spell_cooldowns : dict
+        A dictionary tracking cooldowns for each spell.
+    equipped_rings : dict
+        A dictionary tracking the number of combat and magic rings equipped.
+    equipped_weapon : str
+        The name of the currently equipped weapon.
+    excalir : bool
+        A flag indicating if the player has obtained the Excalir sword.
+    is_shielded : bool
+        A flag indicating if the player is shielded.
+    shield_turns : int
+        The number of turns the shield is active.
+    gold : int
+        The amount of gold the player has.
+
+    Methods:
+    --------
+    level_up():
+        Handles the player's level up process.
+    experience_to_next_level() -> int:
+        Calculates the experience points required for the next level.
+    gain_experience(amount: int):
+        Adds experience points to the player and handles level up if needed.
+    update_max_values():
+        Updates the player's maximum HP, stamina, and magic points based on stats.
+    block() -> float:
+        Returns the block value based on the player's defense.
+    parry() -> float:
+        Returns the parry damage based on the player's strength.
+    update_spell_cooldowns():
+        Updates the cooldowns for all spells.
+    """
+
     def __init__(self):
+        """Initialize the player with default values and stats."""
         self.name = 'Hero'
         self.level = 1
         self.base_max_hp = 100
@@ -119,6 +240,9 @@ class Player:
         self.gold = 0
 
     def level_up(self):
+        """
+        Handles the player's level-up process, awarding stat points and skill points as appropriate.
+        """
         self.level += 1
         self.stats.stat_points += 5
         self.experience -= self.experience_to_next_level()
@@ -128,15 +252,35 @@ class Player:
         self.stats.allocate_stat_points()
         self.update_max_values()
 
-    def experience_to_next_level(self):
+    def experience_to_next_level(self) -> int:
+        """
+        Calculates the experience points required for the next level.
+
+        Returns:
+        --------
+        int: The amount of experience needed for the next level.
+        """
         return 100 * (1.1 ** (self.level - 1))
 
-    def gain_experience(self, amount):
+    def gain_experience(self, amount: int):
+        """
+        Adds experience points to the player and handles level up if needed.
+
+        Parameters:
+        -----------
+        amount : int
+            The amount of experience points to add.
+        """
+
+
         self.experience += amount
         while self.experience >= self.experience_to_next_level():
             self.level_up()
 
     def update_max_values(self):
+        """
+        Updates the player's maximum HP, stamina, and magic points based on stats.
+        """
         self.max_hp = self.base_max_hp + round(self.stats.hp)
         self.max_stamina = self.base_max_stamina + round(self.stats.endurance)
         self.max_magic_points = self.base_max_magic_points + round(self.stats.magic_amount)
@@ -144,36 +288,97 @@ class Player:
         self.stamina = min(self.stamina, self.max_stamina)
         self.magic_points = min(self.magic_points, self.max_magic_points)
 
-    def block(self):
+    def block(self) -> float:
+        """
+        Calculates the block value based on the player's defense.
+
+        Returns:
+        --------
+        float: The value by which incoming damage is reduced.
+        """
         block_value = self.stats.defense * 0.5
         return block_value
 
-    def parry(self):
+    def parry(self) -> float:
+        """
+        Calculates the parry damage based on the player's strength.
+
+        Returns:
+        --------
+        float: The damage dealt by a parry.
+        """
         parry_damage = self.stats.strength * 0.5
         return parry_damage
 
     def update_spell_cooldowns(self):
+        """
+        Reduces the cooldowns for all spells by 1 if they are on cooldown.
+        """
         for spell in self.spell_cooldowns:
             if self.spell_cooldowns[spell] > 0:
                 self.spell_cooldowns[spell] -= 1
 
 class SpecialAbility:
+    """
+    A class to represent a special ability.
+
+    Attributes:
+    -----------
+    name : str
+        The name of the special ability.
+    effect : function
+        The function that defines the effect of the ability.
+    cooldown : int, optional
+        The number of turns required before the ability can be used again (default is 2).
+    current_cooldown : int
+        The current number of turns remaining on the cooldown.
+
+    Methods:
+    --------
+    use(user, target):
+        Executes the ability's effect on the target.
+    reduce_cooldown():
+        Reduces the cooldown of the ability by 1 turn.
+    """
+
     def __init__(self, name, effect, cooldown=2):
+        """Initialize the special ability with a name, effect, and cooldown."""
         self.name = name
         self.effect = effect
         self.cooldown = cooldown
         self.current_cooldown = 0
 
     def use(self, user, target):
+        """
+        Executes the ability's effect on the target.
+
+        Parameters:
+        -----------
+        user : object
+            The entity using the ability.
+        target : object
+            The entity being targeted by the ability.
+        """
         print(f"{user.name} uses {self.name}!")
         self.effect(user, target)
         self.current_cooldown = self.cooldown
 
     def reduce_cooldown(self):
+        """Reduces the cooldown of the ability by 1 turn."""
         if self.current_cooldown > 0:
             self.current_cooldown -= 1
 
 def fire_breath(user, target):
+    """
+    A special ability that deals fire damage to the target and applies a burn effect.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     damage = 20 + user.level * 2
     target.hp -= damage
     target.is_burning = True
@@ -181,6 +386,16 @@ def fire_breath(user, target):
     print(f"{target.name} takes {damage} fire damage and is burning!")
 
 def stronger_fire_breath(user, target):
+    """
+    A stronger version of the fire breath ability, dealing more damage and applying a burn effect.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     damage = 30 + user.level * 3
     target.hp -= damage
     target.is_burning = True
@@ -188,11 +403,31 @@ def stronger_fire_breath(user, target):
     print(f"{target.name} takes {damage} fire damage and is burning!")
 
 def ice_shield(user, target):
+    """
+    A special ability that shields the user from all damage for 2 turns.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     user.is_shielded = True
     user.shield_turns = 2
     print(f"{user.name} uses Ice Shield and is protected from all damage for 2 turns!")
 
 def ice_lance(user, target):
+    """
+    A special ability that deals ice damage to the target and applies a freeze effect.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     damage = 15 + user.level * 1.5
     target.hp -= damage
     target.is_frozen = True
@@ -200,16 +435,44 @@ def ice_lance(user, target):
     print(f"{target.name} takes {damage} ice damage and is frozen for 3 turns!")
 
 def water_heal(user):
+    """
+    A special ability that heals the user.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    """
     heal_amount = 20 + user.level * 2
     user.hp += heal_amount
     print(f"{user.name} heals for {heal_amount} HP!")
 
 def smash(user, target):
+    """
+    A basic attack ability that deals physical damage to the target.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     damage = 10 + user.level * 2
     target.hp -= damage
     print(f"{user.name} smashes {target.name} for {damage} damage!")
 
 def water_nebula(user, target):
+    """
+    A special ability that deals water damage to the target with a chance to drown them.
+
+    Parameters:
+    -----------
+    user : object
+        The entity using the ability.
+    target : object
+        The entity being targeted by the ability.
+    """
     base_damage = user.level * 2 + 10
     if isinstance(user, Player):
         magic_power = user.stats.magic_power
@@ -224,7 +487,60 @@ def water_nebula(user, target):
         print(f"{target.name} is drowned and unable to move for one turn!")
 
 class Monster:
+    """
+    A class to represent a monster in the dungeon.
+
+    Attributes:
+    -----------
+    name : str
+        The name of the monster.
+    level : int
+        The level of the monster.
+    hp : int
+        The current HP of the monster.
+    attack : int
+        The attack value of the monster.
+    magic_power : int
+        The magic power of the monster.
+    abilities : list
+        A list of special abilities the monster can use.
+    is_frozen : bool
+        A flag indicating if the monster is frozen.
+    frozen_duration : int
+        The number of turns the monster remains frozen.
+    is_burning : bool
+        A flag indicating if the monster is burning.
+    burn_duration : int
+        The number of turns the monster remains burning.
+    is_poisoned : bool
+        A flag indicating if the monster is poisoned.
+    poison_duration : int
+        The number of turns the monster remains poisoned.
+    is_shielded : bool
+        A flag indicating if the monster is shielded.
+    shield_turns : int
+        The number of turns the shield is active.
+    is_drowned : bool
+        A flag indicating if the monster is drowned.
+    drowned_duration : int
+        The number of turns the monster remains drowned.
+    immune_to_fire : bool
+        A flag indicating if the monster is immune to fire.
+    experience : int
+        The amount of experience points the monster gives when defeated.
+    gold : int
+        The amount of gold the monster drops when defeated.
+
+    Methods:
+    --------
+    take_turn(player):
+        Handles the monster's turn in combat.
+    reduce_abilities_cooldown():
+        Reduces the cooldowns of the monster's abilities.
+    """
+
     def __init__(self, name, level, base_hp, base_attack, abilities=None, immune_to_fire=False, gold=0):
+        """Initialize the monster with its name, level, base stats, abilities, and resistances."""
         self.name = name
         self.level = level
         self.hp = base_hp + random.randint(-10, 10)  # Randomize HP within a range
@@ -237,6 +553,8 @@ class Monster:
         self.burn_duration = 0
         self.is_poisoned = False
         self.poison_duration = 0
+        self
+
         self.is_shielded = False
         self.shield_turns = 0
         self.is_drowned = False
@@ -246,6 +564,14 @@ class Monster:
         self.gold = gold  # Gold dropped by the monster
 
     def take_turn(self, player):
+        """
+        Handles the monster's turn in combat, including attack, special abilities, and status effects.
+
+        Parameters:
+        -----------
+        player : Player
+            The player object representing the hero.
+        """
         if self.is_frozen:
             print(f"{self.name} is frozen and cannot move this turn.")
             self.frozen_duration -= 1
@@ -301,10 +627,79 @@ class Monster:
             print(f"{self.name} is defeated!")
 
     def reduce_abilities_cooldown(self):
+        """Reduces the cooldowns of the monster's abilities by 1 turn."""
         for ability in self.abilities:
             ability.reduce_cooldown()
 
 class Dungeon:
+    """
+    A class to represent the dungeon and manage the game flow.
+
+    Attributes:
+    -----------
+    player : Player
+        The player object representing the hero.
+    turn : int
+        The current turn number in the dungeon.
+
+    Methods:
+    --------
+    dungeoncombat(monster: Monster, floor: int) -> bool:
+        Manages the combat between the player and a monster.
+    reset_cooldowns():
+        Resets all spell cooldowns for the player.
+    flee() -> bool:
+        Determines whether the player successfully flees from combat.
+    get_available_spells() -> list:
+        Returns a list of available spells the player can cast.
+    cast_spell(spell_name: str, monster: Monster):
+        Casts a spell against the target monster.
+    use_inventory():
+        Handles the player's interaction with their inventory.
+    apply_potion_effect(potion: str):
+        Applies the effect of a potion to the player.
+    replenish_resources():
+        Replenishes a portion of the player's stamina and magic points after combat.
+    display_stats():
+        Displays the player's current stats.
+    collect_loot():
+        Handles the loot collection process after defeating a monster.
+    generate_rare_loot():
+        Generates and awards a rare loot item to the player.
+    check_inventory_limit():
+        Checks if the player's inventory exceeds the limit and prompts to replace an item if necessary.
+    replace_item_prompt():
+        Prompts the player to replace an item in their inventory when the limit is exceeded.
+    dungeonmonster(floor: int) -> Monster:
+        Generates a monster based on the current dungeon floor.
+    clear_floor(floor: int):
+        Handles actions after clearing a floor, including experience and loot rewards.
+    add_potion_to_inventory(potion: str):
+        Adds a potion to the player's inventory.
+    dungeonconquered():
+        Displays a message when the player conquers the dungeon.
+    dungeonpuzzle():
+        Handles a puzzle room encounter in the dungeon.
+    grant_reward():
+        Grants a reward to the player after solving a puzzle.
+    learn_fire_magic():
+        Teaches the player the Fireball spell.
+    learn_water_magic():
+        Teaches the player the Water Nebula spell.
+    learn_ice_magic():
+        Teaches the player the Frostbite and Ice Lance spells.
+    play_game():
+        Manages the main game loop, including floor progression and encounters.
+    mother_dragon_boss() -> bool:
+        Handles the encounter with the Mother Dragon boss.
+    summon_baby_dragon(mother_dragon: Monster):
+        Summons a Baby Dragon to assist the Mother Dragon boss.
+    leviant_boss() -> bool:
+        Handles the encounter with the Leviant boss on the final floor.
+    merida_shop():
+        Manages the interaction with Merida's shop where the player can buy items.
+    """
+
     ACTIONS = {
         'regular': [
             '1: Attack with Weapon',
@@ -328,10 +723,25 @@ class Dungeon:
     }
 
     def __init__(self):
+        """Initialize the dungeon with a player and starting turn count."""
         self.player = Player()
         self.turn = 0
 
-    def dungeoncombat(self, monster, floor):
+    def dungeoncombat(self, monster: Monster, floor: int) -> bool:
+        """
+        Manages the combat between the player and a monster.
+
+        Parameters:
+        -----------
+        monster : Monster
+            The monster the player is fighting.
+        floor : int
+            The current floor number in the dungeon.
+
+        Returns:
+        --------
+        bool: True if the player wins the combat, False if the player is defeated or flees.
+        """
         print(f"==Combat with {monster.name}==")
         while self.player.hp > 0 and monster.hp > 0:
             self.turn += 1
@@ -377,7 +787,7 @@ class Dungeon:
                         self.player.magic_points -= magic_cost
                         available_spells = self.get_available_spells()
                         if available_spells:
-                            print(f"Available spells: {', '.join([f'{i+1}: {spell}' for i, spell in enumerate(available_spells)])}")
+                            print(f"Available spells: {','.join([f'{i+1}: {spell}' for i, spell in enumerate(available_spells)])}")
                             try:
                                 spell_choice = int(input("Choose a spell: ")) - 1
                                 if 0 <= spell_choice < len(available_spells):
@@ -440,17 +850,42 @@ class Dungeon:
             return True
 
     def reset_cooldowns(self):
+        """Resets all spell cooldowns for the player."""
         for spell in self.player.spell_cooldowns:
             self.player.spell_cooldowns[spell] = 0
 
-    def flee(self):
+    def flee(self) -> bool:
+        """
+        Determines whether the player successfully flees from combat.
+
+        Returns:
+        --------
+        bool: True if the player successfully flees, False otherwise.
+        """
         flee_chance = 0.5  # 50% chance to flee
         return random.random() < flee_chance
 
-    def get_available_spells(self):
+    def get_available_spells(self) -> list:
+        """
+        Returns a list of available spells the player can cast.
+
+        Returns:
+        --------
+        list: A list of spell names available for casting.
+        """
         return [spell for spell, available in self.player.spells.items() if available and self.player.spell_cooldowns[spell] == 0]
 
-    def cast_spell(self, spell_name, monster):
+    def cast_spell(self, spell_name: str, monster: Monster):
+        """
+        Casts a spell against the target monster.
+
+        Parameters:
+        -----------
+        spell_name : str
+            The name of the spell to cast.
+        monster : Monster
+            The target monster.
+        """
         if spell_name == 'fireball':
             if monster.immune_to_fire:
                 print(f"Player casts Fireball on {monster.name} but it is immune to fire!")
@@ -487,6 +922,7 @@ class Dungeon:
         self.player.spell_cooldowns[spell_name] = 2  # Spell cannot be used for 1 turn
 
     def use_inventory(self):
+        """Handles the player's interaction with their inventory."""
         print("== Inventory ==")
         print("1: Equip Ring")
         print("2: Equip Weapon")
@@ -509,7 +945,15 @@ class Dungeon:
         else:
             print("Invalid choice.")
 
-    def apply_potion_effect(self, potion):
+    def apply_potion_effect(self, potion: str):
+        """
+        Applies the effect of a potion to the player.
+
+        Parameters:
+        -----------
+        potion : str
+            The name of the potion being used.
+        """
         if potion == 'Health Potion':
             self.player.hp = min(self.player.hp + 50, self.player.max_hp)
             print("You used a Health Potion and restored 50 HP.")
@@ -535,11 +979,13 @@ class Dungeon:
             del self.player.inventory['potions'][potion]
 
     def replenish_resources(self):
+        """Replenishes a portion of the player's stamina and magic points after combat."""
         self.player.stamina = min(self.player.stamina + 10, self.player.max_stamina)
         self.player.magic_points = min(self.player.magic_points + 10, self.player.max_magic_points)
         print(f"You have replenished 10 Stamina and 10 Magic Points after the fight. Current Stamina: {self.player.stamina}/{self.player.max_stamina}, Current Magic Points: {self.player.magic_points}/{self.player.max_magic_points}")
 
     def display_stats(self):
+        """Displays the player's current stats."""
         print("== Player Stats ==")
         print(f"HP: {self.player.hp}/{self.player.max_hp}")
         print(f"MP: {self.player.magic_points}/{self.player.max_magic_points}")
@@ -561,6 +1007,7 @@ class Dungeon:
         input("Press Enter to return to combat...")
 
     def collect_loot(self):
+        """Handles the loot collection process after defeating a monster."""
         loot_chance = random.random()
         if loot_chance < 0.1:
             print("You have found a rare item!")
@@ -582,6 +1029,7 @@ class Dungeon:
         self.check_inventory_limit()
 
     def generate_rare_loot(self):
+        """Generates and awards a rare loot item to the player."""
         rare_loots = [
             {"name": "Sword of Flames", "effect": "Adds fire damage to attacks"},
             {"name": "Shield of Aegis", "effect": "Increases defense by 10"},
@@ -594,12 +1042,14 @@ class Dungeon:
         # Add logic to add rare item to player's inventory
 
     def check_inventory_limit(self):
+        """Checks if the player's inventory exceeds the limit and prompts to replace an item if necessary."""
         total_items = sum(self.player.inventory['potions'].values()) + len(self.player.inventory['rings']) + len(self.player.inventory['weapons'])
         if total_items > 10:
             print("Your inventory is full. You must replace an item.")
             self.replace_item_prompt()
 
     def replace_item_prompt(self):
+        """Prompts the player to replace an item in their inventory when the limit is exceeded."""
         print("Choose an item to replace:")
         inventory_items = list(self.player.inventory['potions'].items()) + \
                           [(f"Ring: {item}", 1) for item in self.player.inventory['rings']] + \
@@ -628,7 +1078,19 @@ class Dungeon:
         else:
             print("Invalid choice.")
 
-    def dungeonmonster(self, floor):
+    def dungeonmonster(self, floor: int) -> Monster:
+        """
+        Generates a monster based on the current dungeon floor.
+
+        Parameters:
+        -----------
+        floor : int
+            The current floor number in the dungeon.
+
+        Returns:
+        --------
+        Monster: A monster object with attributes adjusted for the floor level.
+        """
         if random.random() < 0.1:
             monster = Monster("Dragon", floor, 80, 10, abilities=[SpecialAbility("Fire Breath", fire_breath)], immune_to_fire=True, gold=400)
         elif random.random() < 0.1:
@@ -645,7 +1107,17 @@ class Dungeon:
         monster.attack = int(monster.attack * (1 + 0.02 * floor))
         return monster
 
-    def clear_floor(self, floor):
+    def clear_floor(self, floor: int):
+        
+        """
+        Handles actions after clearing a floor, including experience and loot rewards.
+
+        Parameters:
+        -----------
+        floor : int
+            The current floor number in the dungeon.
+        """
+        
         self.player.score += 1
         input(f"You cleared floor {floor}. Press Enter to continue traversing the dungeon.")
         self.player.gain_experience(100)
@@ -655,18 +1127,28 @@ class Dungeon:
         self.add_potion_to_inventory('Magic Elixir')
         print("You received a Health Potion and a Magic Elixir for clearing the floor.")
 
-    def add_potion_to_inventory(self, potion):
+    def add_potion_to_inventory(self, potion: str):
+        """
+        Adds a potion to the player's inventory.
+
+        Parameters:
+        -----------
+        potion : str
+            The name of the potion to add.
+        """
         if potion in self.player.inventory['potions']:
             self.player.inventory['potions'][potion] += 1
         else:
             self.player.inventory['potions'][potion] = 1
 
     def dungeonconquered(self):
+        """Displays a message when the player conquers the dungeon."""
         print("Congratulations! You have conquered the dungeon!")
         print(f"Your final score is: {self.player.score}")
         # Implement additional reward logic here
 
     def dungeonpuzzle(self):
+        """Handles a puzzle room encounter in the dungeon."""
         print("== You have encountered a puzzle room! ==")
         print("Solve the puzzle to earn a reward.")
         number_to_guess = random.randint(1, 10)
@@ -691,6 +1173,7 @@ class Dungeon:
         print("You failed to solve the puzzle. No reward this time.")
 
     def grant_reward(self):
+        """Grants a reward to the player after solving a puzzle."""
         rewards = [
             {"name": "Fire Magic Book", "effect": self.learn_fire_magic},
             {"name": "Water Magic Book", "effect": self.learn_water_magic},
@@ -702,16 +1185,19 @@ class Dungeon:
         reward['effect']()
 
     def learn_fire_magic(self):
+        """Teaches the player the Fireball spell."""
         self.player.spells['fireball'] = True
         self.player.spell_cooldowns['fireball'] = 0
         print("You have learned the Fireball spell!")
 
     def learn_water_magic(self):
+        """Teaches the player the Water Nebula spell."""
         self.player.spells['water_nebula'] = True
         self.player.spell_cooldowns['water_nebula'] = 0
         print("You have learned the Water Nebula spell!")
 
     def learn_ice_magic(self):
+        """Teaches the player the Frostbite and Ice Lance spells."""
         self.player.spells['frostbite'] = True
         self.player.spell_cooldowns['frostbite'] = 0
         self.player.spells['ice_lance'] = True
@@ -719,6 +1205,7 @@ class Dungeon:
         print("You have learned the Frostbite and Ice Lance spells!")
 
     def play_game(self):
+        """Manages the main game loop, including floor progression and encounters."""
         for floor in range(1, 51):
             print(f"\n== Floor {floor} ==")
             if floor % 10 == 0:
@@ -741,7 +1228,16 @@ class Dungeon:
         self.leviant_boss()
         self.dungeonconquered()
 
-    def mother_dragon_boss(self):
+    def mother_dragon_boss(self) -> bool:
+        
+        """
+        Handles the encounter with the Mother Dragon boss.
+
+        Returns:
+        --------
+        bool: True if the player wins the combat, False if the player is defeated.
+        """
+        
         print("== You have encountered a Mother Dragon! ==")
         mother_dragon = Monster("Mother Dragon", 50, 300, 35, abilities=[SpecialAbility("Stronger Fire Breath", stronger_fire_breath), SpecialAbility("Summon Baby Dragon", lambda user, target: self.summon_baby_dragon(user))], immune_to_fire=True, gold=1000)
         while self.player.hp > 0 and mother_dragon.hp > 0:
@@ -836,11 +1332,30 @@ class Dungeon:
 
         return True
 
-    def summon_baby_dragon(self, mother_dragon):
+    def summon_baby_dragon(self, mother_dragon: Monster):
+        
+        """
+        Summons a Baby Dragon to assist the Mother Dragon boss.
+
+        Parameters:
+        -----------
+        mother_dragon : Monster
+            The Mother Dragon boss monster.
+        """
+        
         baby_dragon = Monster("Baby Dragon", mother_dragon.level, 100, 15, abilities=[SpecialAbility("Fire Breath", fire_breath)], immune_to_fire=True, gold=0)
         baby_dragon.take_turn(self.player)
 
-    def leviant_boss(self):
+    def leviant_boss(self) -> bool:
+        
+        """
+        Handles the encounter with the Leviant boss on the final floor.
+
+        Returns:
+        --------
+        bool: True if the player wins the combat, False if the player is defeated.
+        """
+        
         print("== You have reached floor 50 and encountered Leviant, the powerful plant creature! ==")
         leviant = Monster("Leviant", 50, 200, 25, abilities=[SpecialAbility("Poison Spit", smash), SpecialAbility("Regenerate", lambda user, target: water_heal(user))], gold=800)
         while self.player.hp > 0 and leviant.hp > 0:
@@ -944,6 +1459,8 @@ class Dungeon:
         return True
 
     def merida_shop(self):
+        """Manages the interaction with Merida's shop where the player can buy items."""
+        
         print("Welcome to Merida's Dungeon Shop! Here you can buy items to aid you in your journey.")
         print("1. Buy Health Potion (50 gold)")
         print("2. Buy Stamina Potion (50 gold)")
