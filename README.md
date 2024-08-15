@@ -67,12 +67,13 @@ User Story: As a player, I want to be able to save my game and continue later, s
 
 11. Required Software
 Python 3.x (required to run the game)
+Built-in python library "random"
 
 ## Technical Specification
 *Detail the main algorithms, libraries, and technologies you plan to use. Explain
 your choice of technology and how it supports your project goals.*
 
-Using time and random as the main libraries which are built-in Python libraries. I used built-in libraries because they are easy to implement. This also ensures the game is lightweight and can run without outside dependencies.
+I plan to use random as the main library which is a built-in Python libraries. I used built-in libraries because they are easy to implement and as a new programmer I did not want to stretch myself too thin with technicalities. This also ensures the game is lightweight and can run without outside dependencies with unique installation. 
 
 Combat System:
 
@@ -84,7 +85,7 @@ Leveling System:
 The leveling system uses a mathematical formula (exponential growth) to determine the experience points needed for the player to advance to the next level. This ensures a progressively challenging experience as the player advances through the game.
 Inventory Management:
 
-The game uses a dictionary-based system to manage the player's inventory, including potions, weapons, and other items. The algorithm supports item addition, usage, and limits on the number of items the player can carry.
+The game uses a dictionary-based system to manage the player's inventory, including potions, weapons, and other items. The algorithm supports item addition, usage, and limits on the number of items the player can carry. A simple data structure, but a data structure nonetheless.
 
 ## System or Software Architecture Diagram
 *Include a block-based diagram illustrating the architecture of your software or
@@ -165,4 +166,3 @@ From the Conclusion release:
 I expect for the program to run OK. I have fun playing the game, and I think that's what's most important. I did not receive feedback for the project, but I'm hopeful that it will be well-received. I did not run into any performance issues last time I ran dungeongame.py this afternoon, but I implemented a lot of different functions and methods so I'm sure there are some bugs I didn't find. I tried to create a multiple file directory but ran into a few issues with the code working together. I opted for a longer program but I think it's organized enough for someone to read and understand it if they know how to code. 
 
 I am happy with how I designed the game, even if it's not fully-realized in terms of how I wanted to approach it. I would love to create 8-bit characters that can be encountered in an early Pokémon-style of play. I think if I had another three months to develop this I could get to that. I have never done that before, so I know I would probably need a lot of time to do so. Even then, it may not be done. I think the visual aspect would improve this project tremendously. The code, although imperfect, is from my own mind and I executed it as intended. I have no major qualms about it. I am happy with the progress I made, but any feedback will be helpful for my advancement. I did try to implement a tree data structure for the save/load function in the Dungeon Class, but I ran into too many issues to confidently implement it. If I were start this project over, I would definitely try to add the save / load game functionality earlier so it would be easier to streamline it into my code. I would also find ways to use a multiple file directory more efficiently. Separating my code after writing it all proved fruitless toward that effort.
-
